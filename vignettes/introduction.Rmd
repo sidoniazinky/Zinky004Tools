@@ -4,7 +4,7 @@ author: "Sidonia Zinky"
 date: "2018 03 07"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{"Introduction to HW 3 Vig"}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
