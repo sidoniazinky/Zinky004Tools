@@ -9,18 +9,23 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
-
 
 ## Function 1
 Purpose: to compute mean, varience, and SD
-Details: takes in a vector x, returns a single
-footnotes^[The sd calc here is population, not sample as is computed using standard R functions]
+Details: takes in a vector x, returns a list with all those components.
+``` {r}
+x<-rnorm(10)
+func1 <- function(x){
+  a = sum(x)/length(x)
+  b = sum((x-a)^2)/length(x)
+  c = sqrt(b)
+  return(list(mean=a,var=b,sd=c))
+}
+func1(x)
+```
 
 ## Styles
 
