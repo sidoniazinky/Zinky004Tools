@@ -17,9 +17,10 @@ knitr::opts_chunk$set(
 ```
 
 
-## Vignette Info
-
-SIMPLE EDIT
+## Function 1
+Purpose: to compute mean, varience, and SD
+Details: takes in a vector x, returns a single
+footnotes^[The sd calc here is population, not sample as is computed using standard R functions]
 
 ## Styles
 
