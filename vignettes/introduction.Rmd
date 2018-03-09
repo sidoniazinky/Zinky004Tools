@@ -13,14 +13,38 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+### MISC CONTENT (function 6)
+## Function 6
+[even though it has a higher number than others, it is the simpliest, so it is here first - other functions build off this concept]
+```{r}
+
+func6 <- function(x){
+  
+  tryCatch(stopifnot(is.numeric(x)), error=function(e){print("not numeric")})
+  tryCatch(stopifnot(is.finite(x)), error=function(e){print("not finite")})
+  tryCatch(stopifnot(length(x)!=0), error=function(e){print("has 0 length")})
+  tryCatch(stopifnot(!is.nan(x)), error=function(e){print("NA or NAN")})
+  tryCatch(stopifnot(!is.na(x)), error=function(e){print("NA or NAN")})
+  
+}
+func6(2)
+func6('a')
+func6(Inf)
+func6(c(1,2,3))
+func6(NaN)
+func6(NA)
+
+```
+
+### MEAN VAR SD (functions 1,2,4,5)
 ## Function 1
 Purpose: to compute mean, (population) varience, and (population) SD 
 Details: takes in a vector x, returns a list with all those components.
 Equations used ...
 mean:
-$$\mu = \sum_{i=1}^n p_i x_i$$
+$$\mu = 1/n \sum_{i=1}^n x_i$$
 pop var:
-$$\sigma^2 = \sum_{i=1}^n (x_i-\mu)^2 p_i$$
+$$\sigma^2 = (1/n) \sum_{i=1}^n (x_i-\mu)^2$$
 SD is square root of the var
 ``` {r}
 x<-rnorm(10)
@@ -52,3 +76,84 @@ func2 <- function(x){
 func2(x)
 ```
 
+## Function 4
+Purpose: to compute WEIGHTED mean, WEIGHTED (population) varience, and WEIGHTED (population) SD 
+Details: takes in a vector x, returns a list with all those components.
+Equations used ...
+mean:
+$$\mu = \sum_{i=1}^n x_i * w_i $$
+var:
+$$\sigma^2 = \sum_{i=1}^n (x_i - \mu)^2*w_i  $$
+sd:
+$$\sigma = \sqrt(\sigma^2)  $$
+```{r}
+
+x <- c(1,2,3)
+p <- c(.25,.25,.5)
+d <- data.frame(x,p)
+func4 <- function(d)
+  {
+    a = sum(d$x * d$p)
+    b = sum(((d$x - a)^2) * d$p)
+    c = sqrt(b)
+    return(list(mean=a,var=b,sd=c))
+
+  }
+func4orig <- function(d){
+  return(
+    list(
+      weighted.mean(d$x,d$p),
+      sum(p * (x - weighted.mean(d$x,d$p))^2),
+      sqrt(sum(p * (x - weighted.mean(d$x,d$p))^2))))
+}
+func4(d)
+func4orig(d)
+
+```
+
+## Function 5
+Same as above but with user checks for non-numeric, infinte, NA, NaN values
+```{r}
+
+x <- c(1,2,3)
+p <- c(.25,.25,.5)
+d <- data.frame(x,p)
+badx <- c(NA,2,3)
+badd <- data.frame(badx,p)
+func5 <- function(d) {
+    
+    stopifnot(is.numeric(d$x))
+    stopifnot(is.numeric(d$p))
+    
+    stopifnot(length(d$x)!=0)
+    stopifnot(length(d$p)!=0)
+    
+    stopifnot(is.finite(d$x))
+    stopifnot(is.finite(d$p))
+    
+    stopifnot(!is.na(d$x))
+    stopifnot(!is.na(d$p))
+    
+    stopifnot(!is.nan(d$x))
+    stopifnot(!is.nan(d$p))
+    
+    stopifnot(all.equal(sum(d$p),1))
+    
+    a = sum(d$x * d$p)
+    b = sum(((d$x - a)^2) * d$p)
+    c = sqrt(b)
+    return(list(mean=a,var=b,sd=c))
+    
+}
+func5orig <- function(d){
+  return(
+    list(
+      weighted.mean(d$x,d$p),
+      sum(p * (x - weighted.mean(d$x,d$p))^2),
+      sqrt(sum(p * (x - weighted.mean(d$x,d$p))^2))))
+}
+func5(badd)
+func5(d)
+func5orig(d)
+
+```
