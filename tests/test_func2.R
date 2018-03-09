@@ -11,9 +11,9 @@ func2 <- function(x){
   c = sqrt(b)
   return(list(mean=a,var=b,sd=c))
 }
-func1orig <- function(x){
+func2orig <- function(x){
   return(list(mean(x), var(x), sd(x)))
 }
-func1(x)
-func1orig(x)
-stopifnot(func1(x)%in%func1orig(x))
+func2(x)
+func2orig(x)
+stopifnot(func2(x)%in%func2orig(x))
